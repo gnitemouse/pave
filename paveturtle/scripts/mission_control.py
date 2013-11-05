@@ -3,7 +3,7 @@ import rospy
 import fileinput
 from math import sqrt
 from turtlesim.msg import Pose
-from paveturtle.msg import Point
+from paveturtle.msg import Point, Plan
 
 class MissionControl():
     def __init__(self, waypoints):
@@ -12,7 +12,7 @@ class MissionControl():
         self.waypoint = waypoints
         self.pub = rospy.Publisher('goto', Point)
         self.dist = 0
-        rospy.Subscriber('pose', Pose, self.turtlesays)
+        rospy.Subscriber('turtle1/pose', Pose, self.turtlesays)
         rospy.Subscriber('distance', Plan, self.plannersays)
     def turtlesays(self, pose):
         pt = self.waypoint[0]
@@ -39,7 +39,8 @@ if __name__== '__main__':
     waypoints = []
     for line in fileinput.input():
         point = line.split()
-        waypoints.append((point[0], point[1]))
+        waypoints.append((float(point[0]), float(point[1])))
+    fileinput.close()
     if len(waypoints) == 0:
         rospy.signal_shutdown('no coordinates provided by input file')
     else:

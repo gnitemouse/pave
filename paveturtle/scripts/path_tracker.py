@@ -8,7 +8,7 @@ class PathTracker():
     def __init__(self):
         rospy.init_node('path_tracker')
         rospy.loginfo('launched path_tracker')
-        rospy.Subscriber('plan', Plan, tracker.plannersays)
+        rospy.Subscriber('plan', Plan, self.plannersays)
         self.pub = rospy.Publisher('cmd_vel', Twist)
     def plannersays(self, plan):
         if plan.distance > 2: dist = 2

@@ -10,9 +10,9 @@ class PathPlanner():
         rospy.loginfo('launched path_planner')
         rospy.init_node('path_planner')
         self.xgo, self.ygo = 0, 0
-        rospy.Subscriber('goto', Point, planner.missionsays)
+        rospy.Subscriber('goto', Point, self.missionsays)
         self.pub = rospy.Publisher('plan', Plan)
-        rospy.Subscriber('pose', Pose, planner.turtlesays)
+        rospy.Subscriber('turtle1/pose', Pose, self.turtlesays)
     def missionsays(self, dest):
         self.xgo, self.ygo = dest.x, dest.y
         rospy.loginfo('headed toward (%f,%f)' % (self.xgo, self.ygo))
