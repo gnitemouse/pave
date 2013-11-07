@@ -21,11 +21,10 @@ class PathPlanner():
         dx, dy = self.xgo - pose.x, self.ygo - pose.y
         dist = sqrt(dx * dx + dy * dy)
         angle = atan (dy / dx) - pose.theta
-        if angle > 2: angle = 2.0
-        elif angle < -2: angle = -2.0
         plan = Plan()
         plan.distance, plan.angle = dist, angle
         self.pub.publish(plan)
+        rospy.sleep(1.0)
         rospy.loginfo('distance left %f, target angle %f' % (dist, angle))
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import fileinput
+import sys
 from math import sqrt
 from turtlesim.msg import Pose
 from paveturtle.msg import Point, Plan
@@ -19,7 +20,6 @@ class MissionControl():
         dx = pt[0] - pose.x
         dy = pt[1] - pose.y
         self.dist = sqrt(dx * dx + dy * dy)
-        rospy.loginfo('turtle position (%f,%f)' % (pose.x, pose.y))
     def plannersays(self, dist):
         pt = self.waypoint[0]
         if self.distance < 0.1:
@@ -34,12 +34,11 @@ class MissionControl():
         point = Point()
         point.x, point.y = pt
         self.pub.publish(point)
+        rospy.sleep(1.0)
 
 if __name__== '__main__':
     waypoints = []
-    for line in fileinput.input():
-        point = line.split()
-        waypoints.append((float(point[0]), float(point[1])))
+    waypoints.extend([(float(x[0]), float(x[1])) for x in (line.split() for line in fileinput.input())])
     fileinput.close()
     if len(waypoints) == 0:
         rospy.signal_shutdown('no coordinates provided by input file')

@@ -1,0 +1,8 @@
+<launch>
+    <group ns="turtlesim">
+        <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+        <node pkg="paveturtle" name="mission_control" type="mission_control.py" args="$(arg f)"/>
+        <node pkg="paveturtle" name="path_planner" type="path_planner.py"/>
+        <node pkg="paveturtle" name="path_tracker" type="path_tracker.py"/>
+    </group>
+</launch>
